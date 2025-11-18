@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<title>Đẹp trai không?</title>
+<style>
+    body {
+        font-family: 'Comic Sans MS', sans-serif;
+        background: linear-gradient(#ffe6f2, #ffccff);
+        height: 100vh;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        overflow: hidden;
+    }
+
+    h1 {
+        color: #ff66aa;
+        font-size: 32px;
+        margin-bottom: 10px;
+        text-shadow: 2px 2px #fff;
+    }
+
+    #stickerBox {
+        height: 60px;
+        font-size: 32px;
+        margin-bottom: 20px;
+        text-align: center;
+    }
+
+    .btn-box {
+        display: flex;
+        gap: 20px;
+    }
+
+    button {
+        padding: 15px 30px;
+        font-size: 20px;
+        border-radius: 15px;
+        border: none;
+        cursor: pointer;
+        font-weight: bold;
+        transition: 0.25s;
+        background: #ffffffcc;
+        backdrop-filter: blur(3px);
+        box-shadow: 0 4px 8px #0002;
+    }
+
+    #yesBtn { color: #ff1493; }
+    #noBtn { color: #5555ff; }
+
+    /* Mưa mặt cười */
+    .smile {
+        position: absolute;
+        top: -50px;
+        font-size: 30px;
+        animation: fall linear infinite;
+        opacity: 0.9;
+    }
+
+    @keyframes fall {
+        0% { transform: translateY(-50px) rotate(0deg); }
+        100% { transform: translateY(110vh) rotate(360deg); }
+    }
+
+    /* Overlay cảm ơn */
+    #overlay {
+        position: fixed;
+        top: 0; left: 0;
+        width: 100%; height: 100%;
+        background: rgba(255,200,230,0.9);
+        display: none;
+        justify-content: center;
+        align-items: center;
+        font-size: 40px;
+        font-weight: bold;
+        color: #ff1493;
+        backdrop-filter: blur(4px);
+        z-index: 999;
+    }
+</style>
+</head>
+<body>
+
+<h1>Tôi có đẹp trai không? 😎</h1>
+<div id="stickerBox"></div>
+
+<div class="btn-box">
+    <button id="yesBtn">Có</button>
+    <button id="noBtn">Không</button>
+</div>
+
+<div id="overlay">💗 Cảm ơn bạn rất nhiều 💗</div>
+
+<script>
+let yesBtn = document.getElementById("yesBtn");
+let noBtn = document.getElementById("noBtn");
+let stickerBox = document.getElementById("stickerBox");
+let overlay = document.getElementById("overlay");
+
+let yesScale = 1;
+let noScale = 1;
+
+const stickers = ["😭","😢","🥺","😿","💧","😖"]; 
+
+noBtn.addEventListener("click", () => {
+    // Sticker khác nhau mỗi lần
+    stickerBox.textContent = stickers[Math.floor(Math.random()*stickers.length)];
+
+    // To nhỏ nút
+    yesScale += 0.25;
+    noScale -= 0.15;
+    if (noScale < 0.4) noScale = 0.4;
+
+    yesBtn.style.transform = "scale(" + yesScale + ")";
+    noBtn.style.transform = "scale(" + noScale + ")";
+});
+
+// Khi chọn Có → hiện overlay
+yesBtn.addEventListener("click", () => {
+    yesBtn.disabled = true;
+    noBtn.disabled = true;
+    overlay.style.display = "flex";
+});
+
+// Mưa mặt cười
+function createSmile() {
+    const smile = document.createElement("div");
+    smile.classList.add("smile");
+    smile.textContent = "😊";
+    smile.style.left = Math.random() * 100 + "vw";
+    smile.style.animationDuration = 2 + Math.random() * 3 + "s";
+    document.body.appendChild(smile);
+    setTimeout(() => { smile.remove(); }, 5000);
+}
+setInterval(createSmile, 300);
+</script>
+</body>
+</html>
